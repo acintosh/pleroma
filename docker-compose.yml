@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:10-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=pleroma
+      - POSTGRES_USER=pleroma
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - back
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  app:
+    build: .
+    image: pleroma
+    restart: always
+    environment:
+      - MIX_ENV=prod
+    command: mix phx.server
+    networks:
+      - front
+      - back
+    ports:
+      - "4080:4000"
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/pleroma/uploads
+      - ./config:/pleroma/config
+      - ./priv:/pleroma/priv
+
+networks:
+  front:
+  back:
+    internal: true
