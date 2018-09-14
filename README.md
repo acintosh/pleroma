@@ -10,7 +10,7 @@
 
 `setup.sh`の途中でnvimが開かれてますが、`config/prod.secret.exs`は、docker-compose.ymlのdbに合わせて適宜書き換えます。
 `pasword: `の`<generated postgres password>`はメモを取っておきます。
-```config/prod.secret.exs
+```diff
  # Configure your database
  config :pleroma, Pleroma.Repo,
    adapter: Ecto.Adapters.Postgres,
@@ -25,7 +25,7 @@
 ```
 
 `docker-compose.yml`の`POSTGRES_PASSWORD`に先に取っておいた`<generated postgres password>`を貼りつけます。
-```docker-compose.yml
+```diff
 +      - POSTGRES_PASSWORD=<generated postgres password>
 -      - POSTGRES_PASSWORD=postgres
 ```
@@ -42,7 +42,7 @@ sudo docker-compose up -d
 
 ## Raspberry PI
 Raspberry PI で実行する際は、`Dockerfile`の先頭を編集します。
-```Dockerfile
+```diff
 +FROM joakimk/rpi-elixir
 +#FROM elixir:1.7-alpine
 -#FROM joakimk/rpi-elixir
